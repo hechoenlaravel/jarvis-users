@@ -6,6 +6,7 @@ use Hechoenlaravel\JarvisFoundation\EntityGenerator\EntityModel;
 
 class UserEntity
 {
+    
     /**
      * get the users entity for the form builder
      * @return mixed
