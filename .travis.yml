@@ -11,4 +11,3 @@ before_script:
   - travis_retry composer update --no-interaction --prefer-stable
 
 script:
-  
