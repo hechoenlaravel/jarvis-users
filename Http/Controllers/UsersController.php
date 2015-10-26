@@ -50,9 +50,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = $this->model->count();
-
-        return view('users::users.index')->with('users', $users);
+        return view('users::users.index');
     }
 
     /**
@@ -173,8 +171,9 @@ class UsersController extends Controller
         if ($request->has('email')) {
             $model->where('email', 'LIKE', '%' . $request->get('email') . '%');
         }
-
-        return $this->responseWithPaginator(100, $model, new UserTransformer());
+        return $this->responseWithPaginator(100, $model, new UserTransformer(),null, null, [], function($resource, $fractal){
+            $resource->setMetaValue('total', User::count());
+        });
     }
 
     /**

@@ -13,7 +13,7 @@
                     <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-center">Usuarios<br/> registrados</span>
-                        <span class="info-box-number text-center">{{number_format($users)}}</span>
+                        <span class="info-box-number text-center">@{{total}}</span>
                     </div>
                 </div>
             </div>
