@@ -76,7 +76,12 @@ class UsersController extends Controller
         DB::beginTransaction();
         try {
             $user = User::create($request->all());
-            $user->roles()->sync($request->get('roles'));
+            if($request->has('roles'))
+            {
+                $user->roles()->sync($request->get('roles'));
+            }else{
+                $user->roles()->sync([]);
+            }
             $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha creado el Usuario', 'Excelente!')->autoclose(3500);
@@ -129,6 +134,12 @@ class UsersController extends Controller
                 $user->active = $request->get('active');
             }
             $user->save();
+            if($request->has('roles'))
+            {
+                $user->roles()->sync($request->get('roles'));
+            }else{
+                $user->roles()->sync([]);
+            }
             $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha editado el Usuario', 'Excelente!')->autoclose(3500);
