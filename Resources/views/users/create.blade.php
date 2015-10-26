@@ -33,6 +33,7 @@
             {!! Form::submit('Crear usuario', ['class' => 'btn btn-primary']) !!}
         </div>
     </div>
+    {!! Form:close() !!}
 @endsection
 @section('scripts')
 
