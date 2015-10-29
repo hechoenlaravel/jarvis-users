@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => [
     });
     Route::get('me/edit', ['as' => 'me.edit', 'uses' => 'ProfileController@edit']);
     Route::put('me/edit', ['as' => 'me.update', 'uses' => 'ProfileController@update']);
+    Route::get('password/reset', ['as' => 'reset-password-get', 'uses' => 'PasswordController@getReset']);
     Route::post('password/reset', ['as' => 'reset-password', 'uses' => 'PasswordController@postReset']);
 });
 /** Module API Routes **/
