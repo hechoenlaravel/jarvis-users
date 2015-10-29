@@ -66,6 +66,8 @@ JarvisPlatform.controller('UsersController', ['$scope', 'usersService', '$anchor
             $scope.current_page = data.meta.pagination.current_page;
             $scope.total_pages = data.meta.pagination.total_pages;
             $scope.total = data.meta.pagination.total;
+        }else{
+            $scope.total = 0;
         }
         $scope.results = data.data;
         $scope.totalUsers = data.meta.total;
