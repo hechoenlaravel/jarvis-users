@@ -33,8 +33,8 @@
                     <td>
                         <h1 class="texto1" style="font-family: Arial, Helvetica, sans-serif; font-size:22px; font-weight: bold; color:#14a9e1; text-transform: uppercase; margin:30px 10px 10px 10px; ">Recuperación de contraseña</h1>
                         <span class="texto2" style="font-family: Arial, Helvetica, sans-serif; font-size:18px;  color:#636363;  font-weight: normal; margin: 0px 15px 0 15px; display:block;">
-                            Parece que ha solicitado restaurar su contraseña, por favor haga click en el enlace a continiación<br />
-                            {{ url('password/reset/'.$token) }}<br /><br />
+                            Parece que ha solicitado restaurar su contraseña, por favor haga click en el enlace a continuación<br />
+                            <a href="{{ url('password/reset/'.$token) }}">{{ url('password/reset/'.$token) }}</a><br /><br />
                             Gracias.
                         </span>
                     </td>
