@@ -5,10 +5,10 @@ namespace Modules\User\Http\Controllers;
 use SweetAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use JarvisPlatform\Http\Controllers\Controller;
+use Pingpong\Modules\Routing\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class PasswordController extends Controller
+class RecoverPasswordController extends Controller
 {
 
     use ResetsPasswords;
