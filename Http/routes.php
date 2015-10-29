@@ -8,8 +8,11 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Modules\Users\Http\Controllers
     Route::get('/login', ['as' => 'login', 'uses' => 'AuthController@login']);
     Route::post('/login', ['as' => 'login-post', 'uses' => 'AuthController@postLogin']);
     Route::get('/logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
-    Route::get('password/reset', ['as' => 'reset-password-get', 'uses' => 'PasswordController@getReset']);
-    Route::post('password/reset', ['as' => 'reset-password', 'uses' => 'PasswordController@postReset']);
+});
+
+Route::group(['prefix' => 'password', 'namespace' => 'Modules\Users\Http\Controllers'], function(){
+    Route::get('reset', ['as' => 'reset-password-get', 'uses' => 'PasswordController@getReset']);
+    Route::post('reset', ['as' => 'reset-password', 'uses' => 'PasswordController@postReset']);
 });
 /** Module Routes **/
 Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => ['auth']], function()
