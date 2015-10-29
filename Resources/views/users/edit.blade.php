@@ -23,6 +23,13 @@
                     @if(Auth::user()->can('user-activate'))
                         {!! Field::select('active', ['0' => 'No', '1' => 'Si'], $user->active , ['label' => 'Activo', 'class' => 'select2']) !!}
                     @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Actualizar contraseña</h3>
+                            {!! Field::password('password', ['label' => 'Nueva contraseña']) !!}
+                            {!! Field::password('password_confirmation', ['label' => 'Confirmar nueva contraseña']) !!}
+                        </div>
+                    </div>
                     <h3>Campos del perfil</h3>
                     {!! $profileFields !!}
                 </div>

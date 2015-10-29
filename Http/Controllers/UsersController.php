@@ -143,6 +143,13 @@ class UsersController extends Controller
             {
                 $user->active = $request->get('active');
             }
+            if($request->has('password'))
+            {
+                $this->validate($request, [
+                    'password' => 'required|confirmed|min:6'
+                ]);
+                $user->password = bcrypt($request->get('password'));
+            }
             $user->save();
             if($request->has('roles'))
             {

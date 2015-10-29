@@ -18,6 +18,13 @@
                     <h3>Información básica</h3>
                     {!! Field::text('name', $user->name,['label' => 'Nombre completo']) !!}
                     {!! Field::text('email', $user->email, ['label' => 'Email']) !!}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Actualizar contraseña</h3>
+                            {!! Field::password('password', ['label' => 'Nueva contraseña']) !!}
+                            {!! Field::password('password_confirmation', ['label' => 'Confirmar nueva contraseña']) !!}
+                        </div>
+                    </div>
                     <h3>Campos del perfil</h3>
                     {!! $profileFields !!}
                 </div>
@@ -39,7 +46,7 @@
             </div>
         </div>
         <div class="box-footer">
-            {!! Form::submit('Actualizar usuario', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Actualizar', ['class' => 'btn btn-primary']) !!}
         </div>
     </div>
 @endsection

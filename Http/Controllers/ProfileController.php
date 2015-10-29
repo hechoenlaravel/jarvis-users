@@ -63,6 +63,13 @@ class ProfileController extends Controller
         try {
             $this->user->name = $request->get('name');
             $this->user->email = $request->get('email');
+            if($request->has('password'))
+            {
+                $this->validate($request, [
+                    'password' => 'required|confirmed|min:6'
+                ]);
+                $this->user->password = bcrypt($request->get('password'));
+            }
             $this->user->save();
             $this->updateEntry($entity->getEntity()->id, $this->user->id, ['input' => $request->all()]);
             DB::commit();
