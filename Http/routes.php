@@ -11,7 +11,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Modules\Users\Http\Controllers
 });
 
 Route::group(['prefix' => 'password', 'namespace' => 'Modules\Users\Http\Controllers'], function(){
-    Route::get('reset', ['as' => 'reset-password-get', 'uses' => 'PasswordController@getReset']);
+    Route::get('reset/{token}', ['as' => 'reset-password-get', 'uses' => 'PasswordController@getReset']);
     Route::post('reset', ['as' => 'reset-password', 'uses' => 'PasswordController@postReset']);
 });
 /** Module Routes **/
