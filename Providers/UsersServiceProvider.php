@@ -8,6 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Modules\Users\Observers\RoleObserver;
 use Modules\Users\Observers\UserObserver;
+use Modules\Users\Widgets\TotalUsersWidget;
 
 /**
  * Class UsersServiceProvider
@@ -53,6 +54,7 @@ class UsersServiceProvider extends ServiceProvider
         User::observe(new UserObserver());
         Role::observe(new RoleObserver());
         $this->setMenu();
+        $this->registerWidget();
     }
 
     /**
@@ -198,6 +200,22 @@ class UsersServiceProvider extends ServiceProvider
         })->hideWhen(function(){
             return Auth::guest();
         });
+    }
+
+    /**
+     * Register Widgets
+     */
+    public function registerWidget()
+    {
+        $widgets = app('app.widgets');
+        $widgets->registerWidget([
+            [
+                'name' => 'totalUsers',
+                'class' => TotalUsersWidget::class,
+                'order' => 1,
+                'group' => 'demo'
+            ]
+        ]);
     }
 
 }
