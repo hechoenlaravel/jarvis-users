@@ -2,15 +2,20 @@
 
 use DB;
 use Auth;
+use Dingo\Api\Exception\UpdateResourceFailedException;
+use Joselfonseca\LaravelApiTools\Exceptions\ValidationException;
 use Module;
 use SweetAlert;
+use Illuminate\Mail\Message;
 use Illuminate\Http\Request;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
+use Illuminate\Support\Facades\Password;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
 use Joselfonseca\ImageManager\ImageManager;
 use Modules\Users\Transformers\UserTransformer;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Modules\Users\Http\Requests\UpdateUserRequest;
 use Modules\Users\Http\Requests\CreateUserRequest;
 use Modules\Users\Http\Requests\ForgotPasswordRequest;
@@ -29,7 +34,7 @@ use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 class UsersController extends Controller
 {
 
-    use ResponderTrait, EntryManager;
+    use ResponderTrait, EntryManager, ResetsPasswords;
 
     /**
      * @var User
@@ -37,11 +42,15 @@ class UsersController extends Controller
     protected $model;
 
     /**
+     * @var string
+     */
+    protected $subject = "Recuperar Contraseña";
+
+    /**
      * @param User $model
      */
     public function __construct(User $model)
     {
-        $this->middleware('auth');
         $this->model = $model;
     }
 
@@ -203,9 +212,20 @@ class UsersController extends Controller
         return $this->simpleArray($file->toArray());
     }
 
+    /**
+     * @param ForgotPasswordRequest $request
+     * @return mixed
+     */
     public function forgotPassword(ForgotPasswordRequest $request)
     {
-
+        $response = Password::sendResetLink($request->only('email'), function (Message $message) {
+            $message->subject($this->getEmailSubject());
+        });
+        switch ($response) {
+            case Password::RESET_LINK_SENT:
+                return $this->responseNoContent();
+        }
+        throw new UpdateResourceFailedException();
     }
 
 }
