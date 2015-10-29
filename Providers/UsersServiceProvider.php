@@ -4,12 +4,34 @@ use Auth;
 use MenuPing;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Modules\Users\Observers\RoleObserver;
 use Modules\Users\Observers\UserObserver;
 
+/**
+ * Class UsersServiceProvider
+ * @package Modules\Users\Providers
+ */
 class UsersServiceProvider extends ServiceProvider
 {
+
+    /**
+     * @var array
+     */
+    protected $providers = [
+        \Zizaco\Entrust\EntrustServiceProvider::class,
+        \LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+        \LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $aliases = [
+        'Entrust' => \Zizaco\Entrust\EntrustFacade::class,
+        'Authorizer' => \LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
+    ];
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -45,6 +67,7 @@ class UsersServiceProvider extends ServiceProvider
             \Modules\Users\Console\GenerateAdmin::class,
             \Modules\Users\Console\GenerateDefaultRoleAndPerms::class,
         ]);
+        $this->registerOtherProviders()->registerAliases();
     }
 
     /**
@@ -106,6 +129,33 @@ class UsersServiceProvider extends ServiceProvider
         return array();
     }
 
+    /**
+     * Register other Service Providers
+     * @return $this
+     */
+    private function registerOtherProviders()
+    {
+        foreach ($this->providers as $provider) {
+            $this->app->register($provider);
+        }
+        return $this;
+    }
+
+    /**
+     * Register some Aliases
+     * @return $this
+     */
+    protected function registerAliases()
+    {
+        foreach ($this->aliases as $alias => $original) {
+            AliasLoader::getInstance()->alias($alias, $original);
+        }
+        return $this;
+    }
+
+    /**
+     * Set the user Menu
+     */
     protected function setMenu()
     {
         $menu = MenuPing::instance('sidebar');
