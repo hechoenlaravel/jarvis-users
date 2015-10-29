@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Controllers;
+namespace Modules\Users\Http\Controllers;
 
 use SweetAlert;
 use Illuminate\Http\Request;
@@ -21,6 +21,7 @@ class RecoverPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->redirectPath = env('URI_AFTER_LOGIN', '/dashboard');
     }
 
     /**
@@ -34,7 +35,6 @@ class RecoverPasswordController extends Controller
         if (is_null($token)) {
             throw new NotFoundHttpException;
         }
-
         return view('users::auth.reset')->with('token', $token);
     }
 
@@ -63,7 +63,7 @@ class RecoverPasswordController extends Controller
         switch ($response) {
             case Password::PASSWORD_RESET:
                 SweetAlert::success(trans($response));
-                return redirect($this->redirectPath());
+                return redirect();
 
             default:
                 return redirect()->back()

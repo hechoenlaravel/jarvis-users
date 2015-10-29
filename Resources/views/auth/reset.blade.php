@@ -10,9 +10,10 @@
             </div>
             <div class="login-box-body">
                 {!! Form::open(['route' => 'reset-password']) !!}
-                {!! Field::email('email', ['label' => 'Usuario', 'placeholder' => 'admin@admin.com']) !!}
-                {!! Field::password('password', ['label' => 'Contraseña', 'placeholder' => 'admin']) !!}
-                {!! Field::password('password_confirmation', ['label' => 'Confirme su contraseña', 'placeholder' => 'admin']) !!}
+                <input type="hidden" name="token" value="{{ $token }}">
+                {!! Field::email('email', ['label' => 'Usuario']) !!}
+                {!! Field::password('password', ['label' => 'Contraseña']) !!}
+                {!! Field::password('password_confirmation', ['label' => 'Confirme su contraseña']) !!}
                 {!! Form::submit('Ingresar', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </div>
