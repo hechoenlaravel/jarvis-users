@@ -3,7 +3,7 @@
     Ingreso
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container" ng-controller="LoginController">
         <div class="login-box">
             <div class="login-logo">
 
@@ -15,7 +15,12 @@
                 {!! Field::password('password', ['label' => 'Contraseña', 'placeholder' => 'admin']) !!}
                 {!! Form::submit('Ingresar', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
                 {!! Form::close() !!}
+                <hr />
+                <a href="#" ng-click="forgotPassword()" class="btn btn-block btn-default">Olvide mi contraseña</a>
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{asset('modules/users/js/login.js')}}"></script>
 @endsection

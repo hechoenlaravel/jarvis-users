@@ -37,5 +37,6 @@ $api->version('v1', ['namespace' => 'Modules\Users\Http\Controllers'], function 
     $api->group(['prefix' => 'users'], function($api) {
         $api->post('find-users', 'UsersController@find');
         $api->delete('/{id}', 'UsersController@destroy');
+        $api->post('/forgot-password', 'UsersController@forgotPassword');
     });
 });

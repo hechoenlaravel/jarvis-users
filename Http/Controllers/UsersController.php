@@ -13,6 +13,7 @@ use Joselfonseca\ImageManager\ImageManager;
 use Modules\Users\Transformers\UserTransformer;
 use Modules\Users\Http\Requests\UpdateUserRequest;
 use Modules\Users\Http\Requests\CreateUserRequest;
+use Modules\Users\Http\Requests\ForgotPasswordRequest;
 use Joselfonseca\LaravelApiTools\Traits\ResponderTrait;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -200,6 +201,11 @@ class UsersController extends Controller
         $user->avatar = $file->id;
         $user->save();
         return $this->simpleArray($file->toArray());
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+
     }
 
 }
