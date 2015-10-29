@@ -23,7 +23,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#fefefe" style="margin-top:50px">
     <tr>
         <td>
-            <table class="container" width="450" align="center" border="0"  cellspacing="0" cellpadding="0" style="padding: 40px 30px; border:2px solid #14a9e1; text-align: center; ">
+            <table class="container" width="450" align="center" border="0"  cellspacing="0" cellpadding="0" style="padding: 40px 30px; text-align: center; ">
                 <tr>
                     <td valign="middle" bgcolor="#ffffff"  >
 
