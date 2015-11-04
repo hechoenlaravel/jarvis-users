@@ -192,14 +192,6 @@ class UsersServiceProvider extends ServiceProvider
                 return true;
             });
         });
-        $menuUser = MenuPing::instance('userMenu');
-        $menuUser->dropdown('Menu de Usuario', function ($sub) {
-            $sub->url('me/edit', 'Editar Perfil', ['icon' => 'fa fa-user']);
-            $sub->divider();
-            $sub->url('auth/logout', 'Cerrar Sesión', ['icon' => 'fa fa-sign-out']);
-        })->hideWhen(function(){
-            return Auth::guest();
-        });
     }
 
     /**
