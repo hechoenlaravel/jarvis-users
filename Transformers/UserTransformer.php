@@ -30,6 +30,10 @@ class UserTransformer extends TransformerAbstract{
             ],
             'links' => [
                 'edit' => route('users.edit', ['id' => $user->uuid])
+            ],
+            'avatar' => [
+                'url' => $user->getAvatarImageUrl(),
+                'id' => $user->avatar
             ]
         ];
     }
