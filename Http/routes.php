@@ -39,9 +39,11 @@ Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => [
 /** Module API Routes **/
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'Modules\Users\Http\Controllers'], function ($api) {
-    $api->group(['prefix' => 'users'], function($api) {
-        $api->post('find-users', 'UsersController@find');
-        $api->delete('/{id}', 'UsersController@destroy');
-        $api->post('/forgot-password', 'UsersController@forgotPassword');
+    $api->group(['middleware' => ['api.auth'], 'providers' => ['inSession']], function($api) {
+        $api->group(['prefix' => 'users'], function($api) {
+            $api->post('find-users', 'UsersController@find');
+            $api->delete('/{id}', 'UsersController@destroy');
+            $api->post('/forgot-password', 'UsersController@forgotPassword');
+        });
     });
 });

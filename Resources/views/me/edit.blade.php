@@ -48,6 +48,7 @@
         <div class="box-footer">
             {!! Form::submit('Actualizar', ['class' => 'btn btn-primary']) !!}
         </div>
+        {!! Form::close() !!}
     </div>
 @endsection
 @section('scripts')
