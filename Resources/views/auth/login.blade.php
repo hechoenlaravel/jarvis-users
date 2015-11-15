@@ -11,8 +11,8 @@
             <div class="login-box-body">
                 {!! Alert::render() !!}
                 {!! Form::open(['route' => 'login-post']) !!}
-                {!! Field::email('email', ['label' => 'Usuario', 'placeholder' => 'admin@admin.com']) !!}
-                {!! Field::password('password', ['label' => 'Contraseña', 'placeholder' => 'admin']) !!}
+                {!! Field::email('email', ['label' => 'Usuario']) !!}
+                {!! Field::password('password', ['label' => 'Contraseña']) !!}
                 {!! Form::submit('Ingresar', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
                 {!! Form::close() !!}
                 <hr />
