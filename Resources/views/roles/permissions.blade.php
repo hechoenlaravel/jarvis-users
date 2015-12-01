@@ -1,4 +1,4 @@
-@extends('layouts.withsidebar')
+@extends('jplatformui::layouts.withsidebar')
 @section('pageTitle')
     {{isset($pageTitle) ? $pageTitle : "Permisos de grupo o rol"}}
 @endsection

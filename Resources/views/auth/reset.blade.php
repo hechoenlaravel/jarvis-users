@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('jplatformui::layouts.main')
 @section('pageTitle')
     Restarurar Contraseña
 @endsection
