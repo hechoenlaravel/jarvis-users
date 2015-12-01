@@ -2,6 +2,7 @@
 	"name": "hechoenlaravel/jarvis-users",
 	"description": "Users and Permissions management for Jarvis Platform",
 	"keywords": ["JarvisApp", "Laravel Framework", "Business Application Platform", "BAP"],
+	"type": "jarvis_platform-module",
 	"license" : "MIT",
 	"authors": [
 		{
