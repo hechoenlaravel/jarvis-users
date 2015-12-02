@@ -49,4 +49,7 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        {!! $widgets !!}
+    </div>
 @endsection

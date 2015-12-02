@@ -34,7 +34,7 @@ Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => [
         Route::get('users/edit-field/{id}', ['as' => 'users.config.edit', 'uses' => 'ConfigController@editField']);
     });
 
-    Route::get('u/{uuid}', ['as' => 'me.profile', 'uses' => 'ProfileController@show']);
+    Route::get('u/{uuid}', ['as' => 'user.profile', 'uses' => 'ProfileController@show']);
     Route::get('me/edit', ['as' => 'me.edit', 'uses' => 'ProfileController@edit']);
     Route::put('me/edit', ['as' => 'me.update', 'uses' => 'ProfileController@update']);
 });

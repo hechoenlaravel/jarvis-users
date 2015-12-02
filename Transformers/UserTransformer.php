@@ -29,7 +29,8 @@ class UserTransformer extends TransformerAbstract{
                 'formatted' => ((bool)$user->active) ? "Activo" : "Inactivo"
             ],
             'links' => [
-                'edit' => route('users.edit', ['id' => $user->uuid])
+                'edit' => route('users.edit', ['id' => $user->uuid]),
+                'profile' => route('user.profile', ['uuid' => $user->uuid])
             ],
             'avatar' => [
                 'url' => $user->getAvatarImageUrl(),

@@ -87,6 +87,7 @@
                                         @if(Auth::user()->can('user-delete'))
                                             <button type="button" class="btn btn-sm btn-danger" ng-click="deleteUser(user.id)" data-toggle="tooltip" data-placement="top" title="Eliminar usuario"><i class="fa fa-times"></i></button>
                                         @endif
+                                            <a href="@{{user.links.profile}}" data-toggle="tooltip" data-placement="top" title="Ver Perfil" class="btn btn-sm btn-primary"><i class="fa fa-user"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>

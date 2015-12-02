@@ -42,8 +42,10 @@ class ProfileController extends Controller
         $user = User::byUuid($uuid)->firstOrFail();
         $additionalFields = new EntityFieldPresenter($entity->getEntity());
         $additionalFields->setRowId($user->id);
+        $widgets = app('app.widgets');
         return view('users::users.show')
             ->with('user', $user)
+            ->with('widgets', $widgets->getWidgets('user.profile'))
             ->with('fields', $additionalFields->getFields());
     }
 
