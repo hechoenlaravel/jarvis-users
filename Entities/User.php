@@ -40,6 +40,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     /**
+     * The dates mutators
+     *
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'last_login'];
+
+    /**
      * filter by Uuid
      * @param $query
      * @param $uuid
@@ -57,6 +64,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getAvatarImageUrl()
     {
         return empty($this->avatar) ? asset('img/default-avatar.png') : route('media', ['id' => $this->avatar]);
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getLastLogin()
+    {
+        if(empty($this->last_login)){
+            return "N/A";
+        }
+        return $this->last_login->format('d/m/Y h:i A');
     }
 
 }

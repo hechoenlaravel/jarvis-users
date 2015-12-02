@@ -2,6 +2,7 @@
 
 use Validator;
 use SweetAlert;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Pingpong\Modules\Routing\Controller;
@@ -89,6 +90,9 @@ class AuthController extends Controller {
             SweetAlert::error('El usuario esta inactivo, por favor contacta al administrador del sistema', 'Ups!')->autoclose(3500);
             return redirect($this->loginPath());
         }
+        $u = Auth::user();
+        $u->last_login = Carbon::now();
+        $u->save();
         return redirect()->intended($this->redirectPath());
     }
 	

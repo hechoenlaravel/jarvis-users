@@ -5,11 +5,14 @@ namespace Modules\Users\Http\Controllers;
 use DB;
 use Auth;
 use SweetAlert;
-use Modules\Users\Http\Requests\UpdateUserRequest;
+use Modules\Users\Entities\User;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
+use Modules\Users\Http\Requests\UpdateUserRequest;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
+use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldPresenter;
 use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldsFormBuilder;
+use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 
 /**
  * Class ProfileController
@@ -32,6 +35,16 @@ class ProfileController extends Controller
     {
         $this->user = Auth::user();
         $this->middleware('auth');
+    }
+
+    public function show(UserEntity $entity, $uuid)
+    {
+        $user = User::byUuid($uuid)->firstOrFail();
+        $additionalFields = new EntityFieldPresenter($entity->getEntity());
+        $additionalFields->setRowId($user->id);
+        return view('users::users.show')
+            ->with('user', $user)
+            ->with('fields', $additionalFields->getFields());
     }
 
     /**
