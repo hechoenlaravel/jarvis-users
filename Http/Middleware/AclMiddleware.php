@@ -24,7 +24,7 @@ class AclMiddleware
     {
         $perms = explode(',',$permissions);
         $user = Auth::user();
-        if(!$user->can($perms)){
+        if(!$user->ability('administrador-del-sistema', $perms)){
             abort(403);
         }
         return $next($request);
