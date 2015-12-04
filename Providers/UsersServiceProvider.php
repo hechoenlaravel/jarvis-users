@@ -186,7 +186,7 @@ class UsersServiceProvider extends ServiceProvider
                 $request = app('Illuminate\Http\Request');
                 return $request->is('roles*');
             }])->hideWhen(function(){
-                if(Auth::user()->ability('administrator', 'create-role,edit-role,delete-role,admin-permissions')){
+                if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions')){
                     return false;
                 }
                 return true;
