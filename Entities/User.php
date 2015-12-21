@@ -4,6 +4,9 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use Modules\Users\Transformers\UserTransformer;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -76,6 +79,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return "N/A";
         }
         return $this->last_login->format('d/m/Y h:i A');
+    }
+
+    /**
+     * @return array
+     */
+    public function transformed()
+    {
+        $manager = new Manager();
+        $resource = new Item($this, new UserTransformer());
+        return $manager->createData($resource)->toArray();
     }
 
 }
