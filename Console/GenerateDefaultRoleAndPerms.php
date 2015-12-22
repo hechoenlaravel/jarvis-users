@@ -43,10 +43,6 @@ class GenerateDefaultRoleAndPerms extends Command {
             'display_name' => 'Administrador del sistema',
             'description' => 'Administrador general del sistema'
         ]);
-        $user = Role::create([
-            'display_name' => 'Usuario nivel 1',
-            'description' => 'Usuario general del sistema'
-        ]);
         $create = Permission::create([
             'name' => 'user-create',
             'display_name' => 'Crear Usuarios',
