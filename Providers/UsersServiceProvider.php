@@ -165,7 +165,7 @@ class UsersServiceProvider extends ServiceProvider
             $request = app('Illuminate\Http\Request');
             return $request->is('users*');
         }])->hideWhen(function(){
-            if(Auth::user()->ability('administrator', 'user-create,user-edit,user-delete,user-activate'))
+            if(Auth::user()->ability('administrador-del-sistema', 'user-create,user-edit,user-delete,user-activate'))
             {
                 return false;
             }
@@ -177,7 +177,7 @@ class UsersServiceProvider extends ServiceProvider
                 $request = app('Illuminate\Http\Request');
                 return $request->is('config/users*');
             }])->hideWhen(function(){
-                if(Auth::user()->ability('administrator', 'user-configuration')){
+                if(Auth::user()->ability('administrador-del-sistema', 'user-configuration')){
                     return false;
                 }
                 return true;
