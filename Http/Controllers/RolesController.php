@@ -52,7 +52,7 @@ class RolesController extends Controller
             ->addColumn(['data' => 'id', 'name' => 'id', 'title' => 'Id'])
             ->addColumn(['data' => 'display_name', 'name' => 'display_name', 'title' => 'Nombre'])
             ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Descripción'])
-            ->addColumn(['data' => 'actions', 'name' => 'actions', 'title' => '']);
+            ->addColumn(['data' => 'actions', 'name' => 'actions', 'title' => '', 'orderable' => false]);
         return view('users::roles.index')->with('html', $html);
     }
 

@@ -173,7 +173,7 @@ class UsersServiceProvider extends ServiceProvider
         });
         $menuConfig = MenuPing::instance('config');
         $menuConfig->whereTitle('Configuración', function($sub){
-            $sub->route('users.config', 'Usuarios', [], 1, ['active' => function(){
+            $sub->route('users.config', 'Campos de perfil', [], 1, ['active' => function(){
                 $request = app('Illuminate\Http\Request');
                 return $request->is('config/users*');
             }])->hideWhen(function(){
