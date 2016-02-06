@@ -173,24 +173,33 @@ class UsersServiceProvider extends ServiceProvider
         });
         $menuConfig = MenuPing::instance('config');
         $menuConfig->whereTitle('Configuración', function($sub){
-            $sub->route('users.config', 'Campos de perfil', [], 1, ['active' => function(){
+            $sub->dropdown('Usuarios', function($sub){
+                $sub->url('me/edit', 'Editar Perfil', [], 1, ['active' => function(){
+                    $request = app('Illuminate\Http\Request');
+                    return $request->is('me/edit*');
+                }]);
+                $sub->route('users.config', 'Campos de perfil', [], 1, ['active' => function(){
+                    $request = app('Illuminate\Http\Request');
+                    return $request->is('config/users*');
+                }])->hideWhen(function(){
+                    if(Auth::user()->ability('administrador-del-sistema', 'user-configuration')){
+                        return false;
+                    }
+                    return true;
+                });
+                $sub->route('roles.index', 'Roles y Permisos', [], 2, ['active' => function(){
+                    $request = app('Illuminate\Http\Request');
+                    return $request->is('roles*');
+                }])->hideWhen(function(){
+                    if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions')){
+                        return false;
+                    }
+                    return true;
+                });
+            }, [], ['active' => function(){
                 $request = app('Illuminate\Http\Request');
-                return $request->is('config/users*');
-            }])->hideWhen(function(){
-                if(Auth::user()->ability('administrador-del-sistema', 'user-configuration')){
-                    return false;
-                }
-                return true;
-            });
-            $sub->route('roles.index', 'Roles y Permisos', [], 2, ['active' => function(){
-                $request = app('Illuminate\Http\Request');
-                return $request->is('roles*');
-            }])->hideWhen(function(){
-                if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions')){
-                    return false;
-                }
-                return true;
-            });
+                return $request->is('config/users*') || $request->is('me/edit*');
+            }]);
         });
     }
 
