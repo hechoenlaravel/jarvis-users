@@ -95,5 +95,19 @@ class AuthController extends Controller {
         $u->save();
         return redirect()->intended($this->redirectPath());
     }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogout()
+    {
+        Auth::logout();
+        if(Auth::check()){
+            Auth::logout();
+        }
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+    }
 	
 }
