@@ -12,7 +12,7 @@
 	],
 	"require": {
         "zizaco/entrust": "1.4.*",
-        "lucadegasperi/oauth2-server-laravel": "5.0.*",
+        "lucadegasperi/oauth2-server-laravel": "5.0.*"
 	},
 	"autoload": {
 		"psr-4": {
