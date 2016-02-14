@@ -12,12 +12,7 @@
 	],
 	"require": {
         "zizaco/entrust": "1.4.*",
-        "styde/html": "~1.0",
-        "joselfonseca/laravel-api-tools": "1.3.*",
-        "joselfonseca/image-manager" : "2.1.*",
         "lucadegasperi/oauth2-server-laravel": "5.0.*",
-        "webpatser/laravel-uuid": "2.*",
-        "yajra/laravel-datatables-oracle": "~5.0"
 	},
 	"autoload": {
 		"psr-4": {
