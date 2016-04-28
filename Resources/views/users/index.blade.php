@@ -63,7 +63,6 @@
                             <table class="table no-margin" ts-wrapper>
                                 <thead>
                                 <tr>
-                                    <th ts-criteria="id">ID de usuario</th>
                                     <th ts-criteria="name|lowercase" ts-default>Nombre</th>
                                     <th>Email</th>
                                     <th>Roles</th>
@@ -73,7 +72,6 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="user in results" ts-repeat>
-                                    <td>@{{user.id}}</td>
                                     <td>@{{user.name}}</td>
                                     <td>@{{user.email}}</td>
                                     <td>
