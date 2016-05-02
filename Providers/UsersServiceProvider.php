@@ -174,7 +174,7 @@ class UsersServiceProvider extends ServiceProvider
         $menuConfig = MenuPing::instance('config');
         $menuConfig->whereTitle('Configuración', function($sub){
             $sub->dropdown('Usuarios', function($sub){
-                $sub->url('me/edit', 'Editar Perfil', [], 1, ['active' => function(){
+                $sub->url('me/edit', 'Editar Perfil', [], 0, ['active' => function(){
                     $request = app('Illuminate\Http\Request');
                     return $request->is('me/edit*');
                 }]);
@@ -198,7 +198,7 @@ class UsersServiceProvider extends ServiceProvider
                 });
             }, [], ['active' => function(){
                 $request = app('Illuminate\Http\Request');
-                return $request->is('config/users*') || $request->is('me/edit*');
+                return $request->is('config/users*') || $request->is('me/edit*') || $request->is('roles*');
             }]);
         });
     }
