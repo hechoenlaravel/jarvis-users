@@ -29,6 +29,7 @@ Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => [
     });
 
     Route::group(['prefix' => 'config', 'middleware' => ['acl:user-configuration']], function(){
+        Route::get('/', ['as' => 'users.config.menu', 'uses' => 'ConfigController@config']);
         Route::get('users', ['as' => 'users.config', 'uses' => 'ConfigController@index']);
         Route::get('users/create-field', ['as' => 'users.config.create', 'uses' => 'ConfigController@createField']);
         Route::get('users/edit-field/{id}', ['as' => 'users.config.edit', 'uses' => 'ConfigController@editField']);

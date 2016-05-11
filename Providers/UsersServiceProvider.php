@@ -161,46 +161,22 @@ class UsersServiceProvider extends ServiceProvider
     protected function setMenu()
     {
         $menu = MenuPing::instance('sidebar');
-        $menu->route('users.index', 'Usuarios', [], 2, ['icon' => 'fa fa-users', 'active' => function(){
-            $request = app('Illuminate\Http\Request');
-            return $request->is('users*');
-        }])->hideWhen(function(){
-            if(Auth::user()->ability('administrador-del-sistema', 'user-create,user-edit,user-delete,user-activate'))
-            {
-                return false;
-            }
-            return true;
-        });
-        $menuConfig = MenuPing::instance('config');
-        $menuConfig->whereTitle('Configuración', function($sub){
-            $sub->dropdown('Usuarios', function($sub){
-                $sub->url('me/edit', 'Editar Perfil', [], 0, ['active' => function(){
-                    $request = app('Illuminate\Http\Request');
-                    return $request->is('me/edit*');
-                }]);
-                $sub->route('users.config', 'Campos de perfil', [], 1, ['active' => function(){
-                    $request = app('Illuminate\Http\Request');
-                    return $request->is('config/users*');
-                }])->hideWhen(function(){
-                    if(Auth::user()->ability('administrador-del-sistema', 'user-configuration')){
-                        return false;
-                    }
-                    return true;
-                });
-                $sub->route('roles.index', 'Roles y Permisos', [], 2, ['active' => function(){
-                    $request = app('Illuminate\Http\Request');
-                    return $request->is('roles*');
-                }])->hideWhen(function(){
-                    if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions')){
-                        return false;
-                    }
-                    return true;
-                });
-            }, [], ['active' => function(){
+        $menu->dropdown('Usuarios', function($sub){
+            $sub->route('users.index', 'Listado', [], 2, ['active' => function(){
                 $request = app('Illuminate\Http\Request');
-                return $request->is('config/users*') || $request->is('me/edit*') || $request->is('roles*');
+                return $request->is('users*');
+            }])->hideWhen(function(){
+                if(Auth::user()->ability('administrador-del-sistema', 'user-create,user-edit,user-delete,user-activate'))
+                {
+                    return false;
+                }
+                return true;
+            });
+            $sub->route('users.config', 'Configuración', [], 2, ['active' => function(){
+                $request = app('Illuminate\Http\Request');
+                return $request->is('config*') || $request->is('roles*');
             }]);
-        });
+        }, 0, ['icon' => 'fa fa-users']);
     }
 
     /**

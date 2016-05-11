@@ -68,5 +68,10 @@ class ConfigController extends Controller {
         return view('users::config.edit')
             ->with('form', $builder->render());
     }
+
+    public function config()
+    {
+        return view('users::config');
+    }
 	
 }
