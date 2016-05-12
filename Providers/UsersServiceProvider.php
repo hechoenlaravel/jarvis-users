@@ -172,7 +172,7 @@ class UsersServiceProvider extends ServiceProvider
                 }
                 return true;
             });
-            $sub->route('users.config', 'Configuración', [], 2, ['active' => function(){
+            $sub->route('users.config.menu', 'Configuración', [], 2, ['active' => function(){
                 $request = app('Illuminate\Http\Request');
                 return $request->is('config*') || $request->is('roles*');
             }]);
