@@ -20,6 +20,7 @@ Route::group(['namespace' => 'Modules\Users\Http\Controllers', 'middleware' => [
     Route::group(['middleware' => ['acl:user-create,user-edit,user-delete,user-activate']], function(){
         Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'create', 'edit', 'store', 'update']]);
     });
+    Route::get('users/{id}/avatar', 'UsersController@getAvatar');
     Route::post('users/{id}/avatar', 'UsersController@updateAvatar');
 
     Route::group(['middleware' => ['acl:create-role,edit-role,delete-role,admin-permissions']], function(){

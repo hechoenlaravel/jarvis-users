@@ -66,7 +66,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getAvatarImageUrl()
     {
-        return empty($this->avatar) ? asset('img/default-avatar.png') : route('media', ['id' => $this->avatar]);
+        return empty($this->avatar) ? asset('img/default-avatar.png') : url('users/'.$this->id.'/avatar');
     }
 
     /**

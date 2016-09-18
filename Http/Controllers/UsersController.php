@@ -1,28 +1,26 @@
 <?php namespace Modules\Users\Http\Controllers;
 
 use DB;
-use Auth;
-use Dingo\Api\Exception\UpdateResourceFailedException;
-use Joselfonseca\LaravelApiTools\Exceptions\ValidationException;
-use Module;
+use File;
+use Storage;
 use SweetAlert;
 use Illuminate\Mail\Message;
 use Illuminate\Http\Request;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
+use Modules\Users\Entities\Avatar;
 use Illuminate\Support\Facades\Password;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
-use Joselfonseca\ImageManager\ImageManager;
 use Modules\Users\Transformers\UserTransformer;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Modules\Users\Http\Requests\UpdateUserRequest;
 use Modules\Users\Http\Requests\CreateUserRequest;
+use Dingo\Api\Exception\UpdateResourceFailedException;
 use Modules\Users\Http\Requests\ForgotPasswordRequest;
 use Joselfonseca\LaravelApiTools\Traits\ResponderTrait;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Hechoenlaravel\JarvisFoundation\EntityGenerator\EntityModel;
 use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldsFormBuilder;
 use Joselfonseca\LaravelApiTools\Exceptions\ApiModelNotFoundException;
 use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
@@ -206,17 +204,37 @@ class UsersController extends Controller
 
     /**
      * Update the user's avatar
-     * @param ImageManager $manager
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateAvatar(ImageManager $manager, $id)
+    public function updateAvatar(Request $request, $id)
     {
-        $file = $manager->doUpload(0);
+        $file = $request->file('file');
+        $name = md5($id.time()).'.'.$file->getClientOriginalExtension();
+        Storage::put($name, File::get($file));
+        $fileModel = Avatar::create([
+            'name' => $name,
+            'originalName' => $file->getClientOriginalName(),
+            'type' => $file->getMimeType(),
+            'path' => $name,
+            'size' => $file->getClientSize(),
+            'from_manager' => 0
+        ]);
         $user = User::find($id);
-        $user->avatar = $file->id;
+        $user->avatar = $fileModel->id;
         $user->save();
-        return $this->simpleArray($file->toArray());
+        return $this->simpleArray([
+            'url' => url('users/'.$user->id.'/avatar')
+        ]);
+    }
+
+    public function getAvatar($id)
+    {
+        $user = User::find($id);
+        $avatar = Avatar::find($user->avatar);
+        $file = Storage::get($avatar->path);
+        $img = app('image')->make($file);
+        return $img->response();
     }
 
     /**
