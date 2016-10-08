@@ -6,8 +6,8 @@
 
 @endsection
 @section('content-header')
-    <h2><i class="fa fa-cog"></i> Configuración del módulo usuarios</h2>
-    <p>Utilice las opciones de esta sección para configurar el modulo de usuarios.</p>
+    <h2><i class="fa fa-cog"></i> Campos de perfil</h2>
+    <p>Administre los campos de perfil adicionales del usuario.</p>
 @endsection
 @section('content')
     <div class="row">

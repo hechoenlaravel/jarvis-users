@@ -172,10 +172,27 @@ class UsersServiceProvider extends ServiceProvider
                 }
                 return true;
             });
-            $sub->route('users.config.menu', 'Configuración', [], 2, ['active' => function(){
+            $sub->header('Configuración');
+            $sub->route('users.config', 'Campos de perfil', [], 2, ['active' => function(){
                 $request = app('Illuminate\Http\Request');
-                return $request->is('config*') || $request->is('roles*');
-            }]);
+                return $request->is('config/users*');
+            }])->hideWhen(function(){
+                if(Auth::user()->ability('administrador-del-sistema', 'user-profile-fields-edit'))
+                {
+                    return false;
+                }
+                return true;
+            });
+            $sub->route('roles.index', 'Roles y permisos', [], 2, ['active' => function(){
+                $request = app('Illuminate\Http\Request');
+                return $request->is('roles*');
+            }])->hideWhen(function(){
+                if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions'))
+                {
+                    return false;
+                }
+                return true;
+            });
         }, 0, ['icon' => 'fa fa-users']);
     }
 
