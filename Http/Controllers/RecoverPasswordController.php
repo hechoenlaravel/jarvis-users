@@ -63,7 +63,7 @@ class RecoverPasswordController extends Controller
         switch ($response) {
             case Password::PASSWORD_RESET:
                 SweetAlert::success(trans($response));
-                return redirect();
+                return redirect()->to('auth/login');
 
             default:
                 return redirect()->back()
