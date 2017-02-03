@@ -159,7 +159,7 @@ class UsersServiceProvider extends ServiceProvider
     {
         $menu = app('menu.sidebar');
         $menu->add(Html::raw('<li class="header">USUARIOS</li>'));
-        $menu->linkIfCan('Listar usuarios', '/users', 'Listar')->setActive('/users/*');
+        $menu->linkIfCan('Listar Usuarios', '/users', 'Listar');
     }
 
 }
