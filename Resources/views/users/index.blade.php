@@ -79,10 +79,10 @@
                                     </td>
                                     <td>@{{user.active.formatted}}</td>
                                     <td>
-                                        @if(Auth::user()->can('user-edit'))
+                                        @if(Auth::user()->hasPermissionTo('Editar usuario'))
                                             <a href="@{{user.links.edit}}" data-toggle="tooltip" data-placement="top" title="Editar usuario" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
                                         @endif
-                                        @if(Auth::user()->can('user-delete'))
+                                        @if(Auth::user()->hasPermissionTo('Eliminar usuario'))
                                             <button type="button" class="btn btn-sm btn-danger" ng-click="deleteUser(user.id)" data-toggle="tooltip" data-placement="top" title="Eliminar usuario"><i class="fa fa-times"></i></button>
                                         @endif
                                             <a href="@{{user.links.profile}}" data-toggle="tooltip" data-placement="top" title="Ver Perfil" class="btn btn-sm btn-primary"><i class="fa fa-user"></i></a>

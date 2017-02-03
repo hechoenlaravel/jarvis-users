@@ -8,9 +8,9 @@ use Datatables;
 use SweetAlert;
 use Illuminate\Http\Request;
 use Modules\Users\Entities\Role;
-use yajra\Datatables\Html\Builder;
+use Yajra\Datatables\Html\Builder;
 use Modules\Users\Entities\Permission;
-use Pingpong\Modules\Routing\Controller;
+use Nwidart\Modules\Routing\Controller;
 use Modules\Users\Http\Requests\CreateRoleRequest;
 
 /**

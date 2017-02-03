@@ -6,7 +6,7 @@ use DB;
 use Auth;
 use SweetAlert;
 use Modules\Users\Entities\User;
-use Pingpong\Modules\Routing\Controller;
+use Nwidart\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
 use Modules\Users\Http\Requests\UpdateUserRequest;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;

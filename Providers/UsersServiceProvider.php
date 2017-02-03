@@ -1,14 +1,15 @@
-<?php namespace Modules\Users\Providers;
+<?php
 
-use Auth;
-use MenuPing;
+namespace Modules\Users\Providers;
+
+use Spatie\Menu\Laravel\Html;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Modules\Users\Observers\RoleObserver;
 use Modules\Users\Observers\UserObserver;
-use Modules\Users\Widgets\TotalUsersWidget;
 
 /**
  * Class UsersServiceProvider
@@ -21,17 +22,14 @@ class UsersServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        \Zizaco\Entrust\EntrustServiceProvider::class,
-        \LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
-        \LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+
     ];
 
     /**
      * @var array
      */
     protected $aliases = [
-        'Entrust' => \Zizaco\Entrust\EntrustFacade::class,
-        'Authorizer' => \LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
+
     ];
 
     /**
@@ -51,10 +49,9 @@ class UsersServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerTranslations();
         $this->registerViews();
+        $this->setMenu();
         User::observe(new UserObserver());
         Role::observe(new RoleObserver());
-        $this->setMenu();
-        $this->registerWidget();
     }
 
     /**
@@ -160,56 +157,9 @@ class UsersServiceProvider extends ServiceProvider
      */
     protected function setMenu()
     {
-        $menu = MenuPing::instance('sidebar');
-        $menu->dropdown('Usuarios', function($sub){
-            $sub->route('users.index', 'Listado', [], 2, ['active' => function(){
-                $request = app('Illuminate\Http\Request');
-                return $request->is('users*');
-            }])->hideWhen(function(){
-                if(Auth::user()->ability('administrador-del-sistema', 'user-create,user-edit,user-delete,user-activate'))
-                {
-                    return false;
-                }
-                return true;
-            });
-            $sub->header('Configuración');
-            $sub->route('users.config', 'Campos de perfil', [], 2, ['active' => function(){
-                $request = app('Illuminate\Http\Request');
-                return $request->is('config/users*');
-            }])->hideWhen(function(){
-                if(Auth::user()->ability('administrador-del-sistema', 'user-profile-fields-edit'))
-                {
-                    return false;
-                }
-                return true;
-            });
-            $sub->route('roles.index', 'Roles y permisos', [], 2, ['active' => function(){
-                $request = app('Illuminate\Http\Request');
-                return $request->is('roles*');
-            }])->hideWhen(function(){
-                if(Auth::user()->ability('administrador-del-sistema', 'create-role,edit-role,delete-role,admin-permissions'))
-                {
-                    return false;
-                }
-                return true;
-            });
-        }, 0, ['icon' => 'fa fa-users']);
-    }
-
-    /**
-     * Register Widgets
-     */
-    public function registerWidget()
-    {
-        $widgets = app('app.widgets');
-        $widgets->registerWidget([
-            [
-                'name' => 'totalUsers',
-                'class' => TotalUsersWidget::class,
-                'order' => 1,
-                'group' => 'demo'
-            ]
-        ]);
+        $menu = app('menu.sidebar');
+        $menu->add(Html::raw('<li class="header">USUARIOS</li>'));
+        $menu->linkIfCan('Listar usuarios', '/users', 'Listar')->setActive('/users/*');
     }
 
 }

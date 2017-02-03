@@ -4,8 +4,8 @@ namespace Modules\Users\Http\Controllers;
 
 use SweetAlert;
 use Illuminate\Http\Request;
+use Nwidart\Modules\Routing\Controller;
 use Illuminate\Support\Facades\Password;
-use Pingpong\Modules\Routing\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class RecoverPasswordController extends Controller

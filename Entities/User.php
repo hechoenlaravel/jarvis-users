@@ -2,24 +2,19 @@
 
 namespace Modules\Users\Entities;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use League\Fractal\Manager;
-use League\Fractal\Resource\Item;
-use Modules\Users\Transformers\UserTransformer;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Modules\Users\Transformers\UserTransformer;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
  * @package Modules\Users\Entities
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-    use Authenticatable, CanResetPassword, EntrustUserTrait, SoftDeletes;
+    use Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -86,9 +81,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function transformed()
     {
-        $manager = new Manager();
-        $resource = new Item($this, new UserTransformer());
-        return $manager->createData($resource)->toArray();
+        return fractal()->item($this, new UserTransformer())->toArray();
     }
 
 }

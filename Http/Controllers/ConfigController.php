@@ -1,7 +1,9 @@
-<?php namespace Modules\Users\Http\Controllers;
+<?php
+
+namespace Modules\Users\Http\Controllers;
 
 use JavaScript;
-use Pingpong\Modules\Routing\Controller;
+use Nwidart\Modules\Routing\Controller;
 use Hechoenlaravel\JarvisFoundation\UI\Field\FormBuilder;
 use Hechoenlaravel\JarvisFoundation\FieldGenerator\FieldModel;
 use Hechoenlaravel\JarvisFoundation\EntityGenerator\EntityModel;

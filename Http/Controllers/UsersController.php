@@ -1,4 +1,6 @@
-<?php namespace Modules\Users\Http\Controllers;
+<?php
+
+namespace Modules\Users\Http\Controllers;
 
 use DB;
 use File;
@@ -9,20 +11,19 @@ use Illuminate\Http\Request;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Avatar;
+use Illuminate\Support\Facades\Auth;
+use Nwidart\Modules\Routing\Controller;
 use Illuminate\Support\Facades\Password;
-use Pingpong\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
 use Modules\Users\Transformers\UserTransformer;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Modules\Users\Http\Requests\UpdateUserRequest;
 use Modules\Users\Http\Requests\CreateUserRequest;
-use Dingo\Api\Exception\UpdateResourceFailedException;
 use Modules\Users\Http\Requests\ForgotPasswordRequest;
-use Joselfonseca\LaravelApiTools\Traits\ResponderTrait;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldsFormBuilder;
-use Joselfonseca\LaravelApiTools\Exceptions\ApiModelNotFoundException;
 use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 
 /**
@@ -32,7 +33,7 @@ use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 class UsersController extends Controller
 {
 
-    use ResponderTrait, EntryManager, ResetsPasswords;
+    use EntryManager, ResetsPasswords;
 
     /**
      * @var User
@@ -68,7 +69,6 @@ class UsersController extends Controller
     public function create(UserEntity $entity)
     {
         $builder = new EntityFieldsFormBuilder($entity->getEntity());
-
         return view('users::users.create')
             ->with('roles', Role::all()->pluck('name', 'id')->toArray())
             ->with('profileFields', $builder->render());
@@ -197,9 +197,12 @@ class UsersController extends Controller
         if ($request->has('email')) {
             $model->where('email', 'LIKE', '%' . $request->get('email') . '%');
         }
-        return $this->responseWithPaginator(100, $model, new UserTransformer(),null, null, [], function($resource, $fractal){
-            $resource->setMetaValue('total', User::count());
-        });
+        $pagination = $model->paginate(100);
+        $users = $pagination->getCollection();
+        $response = fractal()->collection($users, new UserTransformer())
+            ->paginateWith(new IlluminatePaginatorAdapter($pagination))
+            ->addMeta('total', User::count());
+        return response()->json($response);
     }
 
     /**
@@ -223,9 +226,7 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->avatar = $fileModel->id;
         $user->save();
-        return $this->simpleArray([
-            'url' => url('users/'.$user->id.'/avatar')
-        ]);
+        return response()->json(['url' => url('users/'.$user->id.'/avatar')]);
     }
 
     public function getAvatar($id)
@@ -248,7 +249,7 @@ class UsersController extends Controller
         });
         switch ($response) {
             case Password::RESET_LINK_SENT:
-                return $this->responseNoContent();
+                return response()->json(null, 204);
         }
         throw new UpdateResourceFailedException();
     }

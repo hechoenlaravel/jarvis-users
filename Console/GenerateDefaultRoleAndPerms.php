@@ -1,8 +1,10 @@
-<?php namespace Modules\Users\Console;
+<?php
+
+namespace Modules\Users\Console;
 
 use Illuminate\Console\Command;
-use Modules\Users\Entities\Permission;
 use Modules\Users\Entities\Role;
+use Modules\Users\Entities\Permission;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -40,70 +42,58 @@ class GenerateDefaultRoleAndPerms extends Command {
 	public function fire()
 	{
         $admin = Role::create([
-            'display_name' => 'Administrador del sistema',
-            'description' => 'Administrador general del sistema'
+            'name' => 'Administrador del sistema',
+            'module' => 'users'
+        ]);
+        $list = Permission::create([
+            'name' => 'Listar usuarios',
+            'module' => 'users'
         ]);
         $create = Permission::create([
-            'name' => 'user-create',
-            'display_name' => 'Crear Usuarios',
-            'description' => 'Crea usuarios en el sistema',
+            'name' => 'Crear usuario',
             'module' => 'users'
         ]);
         $edit = Permission::create([
-            'name' => 'user-edit',
-            'display_name' => 'Editar Usuarios',
-            'description' => 'Edita usuarios en el sistema',
+            'name' => 'Editar usuario',
             'module' => 'users'
         ]);
         $delete = Permission::create([
-            'name' => 'user-delete',
-            'display_name' => 'Eliminar Usuarios',
-            'description' => 'Elimina usuarios en el sistema',
-            'module' => 'users'
+            'name' => 'Eliminar usuario',
+            'module' => 'users',
         ]);
         $activate = Permission::create([
-            'name' => 'user-activate',
-            'display_name' => 'Activar/Desactivar Usuarios',
-            'description' => 'Puede activar o desactivar usuarios en el sistema',
+            'name' => 'Activar usuario',
             'module' => 'users'
         ]);
         $config = Permission::create([
-            'name' => 'user-configuration',
-            'display_name' => 'Configuración de usuarios',
-            'description' => 'Puede modificar la configuración del modulo, como los campos de perfil y otros.',
+            'name' => 'Configuracion de usuarios',
             'module' => 'users'
         ]);
         $profileFields = Permission::create([
-            'name' => 'user-profile-fields-edit',
-            'display_name' => 'Editar campos del perfil de usuario',
-            'description' => 'Administrat los campos del perfil de usuario',
+            'name' => 'Editar campos de perfil',
+            'module' => 'users'
+        ]);
+        $listRoles = Permission::create([
+            'name' => 'Listar roles',
             'module' => 'users'
         ]);
         $createRoles = Permission::create([
-            'name' => 'create-role',
-            'display_name' => 'Crear Roles',
-            'description' => 'Puede crear roles en el sistema.',
+            'name' => 'Crear roles',
             'module' => 'users'
         ]);
         $editRoles = Permission::create([
-            'name' => 'edit-role',
-            'display_name' => 'Editar Roles',
-            'description' => 'Puede editar roles en el sistema.',
+            'name' => 'Editar roles',
             'module' => 'users'
         ]);
         $deleteRoles = Permission::create([
-            'name' => 'delete-role',
-            'display_name' => 'Eliminar Roles',
-            'description' => 'Puede eliminar roles en el sistema.',
+            'name' => 'Eliminar roles',
             'module' => 'users'
         ]);
         $adminPermissions = Permission::create([
-            'name' => 'admin-permissions',
-            'display_name' => 'Administrar permisos',
-            'description' => 'Puede adminisrar los permisos asignados a los roles.',
+            'name' => 'Asignación de permisos a roles',
             'module' => 'users'
         ]);
-        $admin->attachPermissions([$create, $edit, $delete, $activate, $config, $profileFields, $createRoles, $editRoles, $deleteRoles, $adminPermissions]);
+        $admin->givePermissionTo($list, $create, $edit, $delete, $activate, $config, $profileFields, $listRoles, $createRoles, $editRoles, $deleteRoles, $adminPermissions);
 	}
 
 	/**

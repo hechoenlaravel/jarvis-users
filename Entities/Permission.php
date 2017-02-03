@@ -2,10 +2,10 @@
 
 namespace Modules\Users\Entities;
 
-use Zizaco\Entrust\EntrustPermission;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 
-class Permission extends EntrustPermission{
+class Permission extends SpatiePermission
+{
 
-    protected $fillable = ['name', 'description', 'display_name', 'module'];
 
 }

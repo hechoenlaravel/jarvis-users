@@ -45,8 +45,8 @@ class GenerateAdmin extends Command {
             'email' => 'admin@admin.com',
             'password' => 'admin'
         ]);
-        $adminRole = Role::where('name', 'administrador-del-sistema')->first();
-        $user->attachRole($adminRole);
+        $adminRole = Role::where('name', 'Administrador del sistema')->first();
+        $user->assignRole($adminRole);
 	}
 
 	/**
