@@ -19,18 +19,45 @@
                         Roles
                     </h3>
                     <div class="box-tools pull-right">
-                        @if(Auth::user()->can('create-role'))
+                        @if(Auth::user()->hasPermissionTo('Crear roles'))
                             <a href="{{route('roles.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear rol</a>
                         @endif
                     </div>
                 </div>
                 <div class="box-body">
-                    {!! $html->table() !!}
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Rol</th>
+                                <th>Fecha de ultima actualización</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($roles as $role)
+                                <tr>
+                                    <td>{{ $role->name }}</td>
+                                    <td>{{ $role->updated_at->format('d/m/Y') }}</td>
+                                    <td width="150">
+                                        @if(Auth::user()->hasPermissionTo('Editar roles') && $role->name != "Administrador del sistema")
+                                            <a href="{{ route('roles.edit', ['id' => $role->id]) }}" data-toggle="tooltip" data-placement="top" title="Editar rol" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp;
+                                        @endif
+                                        @if(Auth::user()->hasPermissionTo('Eliminar roles') && $role->name != "Administrador del sistema")
+                                            <a href="{{ route('roles.destroy', ['id' => $role->id]) }}" data-toggle="tooltip" data-placement="top" title="Eliminar rol" class="btn btn-sm btn-danger confirm-delete"><i class="fa fa-times"></i></a>&nbsp;
+                                        @endif
+                                        @if(Auth::user()->hasPermissionTo('Asignación de permisos a roles') && $role->name != "Administrador del sistema")
+                                            <a href="{{ route('roles.permissions', ['id' => $role->id]) }}" data-toggle="tooltip" data-placement="top" title="Editar permisos" class="btn btn-sm btn-primary"><i class="fa fa-lock"></i></a>&nbsp;
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    {!! $roles->render() !!}
                 </div>
             </div>
         </div>
     </div>
-@endsection
-@section('scripts')
-    {!! $html->scripts() !!}
 @endsection

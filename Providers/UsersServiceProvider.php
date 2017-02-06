@@ -2,10 +2,8 @@
 
 namespace Modules\Users\Providers;
 
-use Spatie\Menu\Laravel\Html;
 use Modules\Users\Entities\Role;
 use Modules\Users\Entities\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Modules\Users\Observers\RoleObserver;
@@ -49,9 +47,7 @@ class UsersServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerTranslations();
         $this->registerViews();
-        $this->setMenu();
         User::observe(new UserObserver());
-        Role::observe(new RoleObserver());
     }
 
     /**
@@ -150,16 +146,6 @@ class UsersServiceProvider extends ServiceProvider
             AliasLoader::getInstance()->alias($alias, $original);
         }
         return $this;
-    }
-
-    /**
-     * Set the user Menu
-     */
-    protected function setMenu()
-    {
-        $menu = app('menu.sidebar');
-        $menu->add(Html::raw('<li class="header">USUARIOS</li>'));
-        $menu->linkIfCan('Listar Usuarios', '/users', 'Listar');
     }
 
 }

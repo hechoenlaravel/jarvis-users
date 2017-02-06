@@ -7,7 +7,8 @@
     "active": 1,
     "order": 0,
     "providers": [
-        "Modules\\Users\\Providers\\UsersServiceProvider"
+        "Modules\\Users\\Providers\\UsersServiceProvider",
+        "Modules\\Users\\Providers\\MenuServiceProvider"
     ],
     "aliases":{},
     "files": [

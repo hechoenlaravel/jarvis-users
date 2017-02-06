@@ -12,7 +12,6 @@ class RoleTransformer extends TransformerAbstract{
         return [
             'id' => (int) $role->id,
             'name' => $role->name,
-            'display_name' => $role->display_name,
             'created_at' => $role->created_at,
             'updated_at' => $role->updated_at
         ];

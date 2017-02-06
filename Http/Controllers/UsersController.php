@@ -70,7 +70,7 @@ class UsersController extends Controller
     {
         $builder = new EntityFieldsFormBuilder($entity->getEntity());
         return view('users::users.create')
-            ->with('roles', Role::all()->pluck('name', 'id')->toArray())
+            ->with('roles', Role::all()->pluck('name', 'name')->toArray())
             ->with('profileFields', $builder->render());
     }
 
@@ -84,12 +84,7 @@ class UsersController extends Controller
         DB::beginTransaction();
         try {
             $user = User::create($request->all());
-            if($request->has('roles'))
-            {
-                $user->roles()->sync($request->get('roles'));
-            }else{
-                $user->roles()->sync([]);
-            }
+            $user->syncRoles($request->get('roles', []));
             $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha creado el Usuario', 'Excelente!')->autoclose(3500);
@@ -115,7 +110,7 @@ class UsersController extends Controller
 
         return view('users::users.edit')
             ->with('user', $user)
-            ->with('roles', Role::all()->pluck('display_name', 'id')->toArray())
+            ->with('roles', Role::all()->pluck('name', 'name')->toArray())
             ->with('profileFields', $builder->render());
     }
 
@@ -137,24 +132,17 @@ class UsersController extends Controller
         try {
             $user->name = $request->get('name');
             $user->email = $request->get('email');
-            if($request->has('active'))
-            {
+            if($request->has('active')) {
                 $user->active = $request->get('active');
             }
-            if($request->has('password'))
-            {
+            if($request->has('password')) {
                 $this->validate($request, [
                     'password' => 'required|confirmed|min:6'
                 ]);
                 $user->password = bcrypt($request->get('password'));
             }
             $user->save();
-            if($request->has('roles'))
-            {
-                $user->roles()->sync($request->get('roles'));
-            }else{
-                $user->roles()->sync([]);
-            }
+            $user->syncRoles($request->get('roles', []));
             $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha editado el Usuario', 'Excelente!')->autoclose(3500);
@@ -162,7 +150,6 @@ class UsersController extends Controller
             DB::rollBack();
             return back()->withInput($request->all())->withErrors($e->getErrors());
         }
-
         return redirect()->route('users.index');
     }
 

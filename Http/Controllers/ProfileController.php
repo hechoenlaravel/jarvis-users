@@ -3,9 +3,9 @@
 namespace Modules\Users\Http\Controllers;
 
 use DB;
-use Auth;
 use SweetAlert;
 use Modules\Users\Entities\User;
+use Illuminate\Support\Facades\Auth;
 use Nwidart\Modules\Routing\Controller;
 use Modules\Users\Repositories\UserEntity;
 use Modules\Users\Http\Requests\UpdateUserRequest;
@@ -33,7 +33,6 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->user = Auth::user();
         $this->middleware('auth');
     }
 
@@ -42,10 +41,8 @@ class ProfileController extends Controller
         $user = User::byUuid($uuid)->firstOrFail();
         $additionalFields = new EntityFieldPresenter($entity->getEntity());
         $additionalFields->setRowId($user->id);
-        $widgets = app('app.widgets');
         return view('users::users.show')
             ->with('user', $user)
-            ->with('widgets', $widgets->getWidgets('user.profile'))
             ->with('fields', $additionalFields->getFields());
     }
 
@@ -56,9 +53,9 @@ class ProfileController extends Controller
     public function edit(UserEntity $entity)
     {
         $builder = new EntityFieldsFormBuilder($entity->getEntity());
-        $builder->setRowId($this->user->id);
+        $builder->setRowId(Auth::user()->id);
         return view('users::me.edit')
-            ->with('user', $this->user)
+            ->with('user', Auth::user())
             ->with('profileFields', $builder->render());
     }
 
@@ -69,15 +66,16 @@ class ProfileController extends Controller
      */
     public function update(UpdateUserRequest $request, UserEntity $entity)
     {
-        if ($this->user->email !== $request->get('email')) {
+        $user = Auth::user();
+        if ($user->email !== $request->get('email')) {
             $this->validate($request, [
                 'email' => 'unique:app_users,email'
             ]);
         }
         DB::beginTransaction();
         try {
-            $this->user->name = $request->get('name');
-            $this->user->email = $request->get('email');
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
             if($request->has('password'))
             {
                 $this->validate($request, [
@@ -85,8 +83,8 @@ class ProfileController extends Controller
                 ]);
                 $this->user->password = bcrypt($request->get('password'));
             }
-            $this->user->save();
-            $this->updateEntry($entity->getEntity()->id, $this->user->id, ['input' => $request->all()]);
+            $user->save();
+            $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha editado su perfil', 'Excelente!')->autoclose(3500);
         } catch (EntryValidationException $e) {

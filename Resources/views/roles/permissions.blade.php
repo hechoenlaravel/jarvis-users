@@ -19,7 +19,7 @@
                     <div class="row">
                         @foreach($permissions->where('module', $module->alias) as $permission)
                             <div class="col-md-4">
-                                {!! Field::checkbox('permissions[]', $permission->id, $role->hasPermission($permission->name), ['label' => $permission->display_name]) !!}
+                                {!! Field::checkbox('permissions[]', $permission->name, $role->hasPermissionTo($permission->name), ['label' => $permission->name]) !!}
                             </div>
                         @endforeach
                     </div>

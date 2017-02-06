@@ -2,13 +2,10 @@
 
 namespace Modules\Users\Http\Controllers;
 
-use Auth;
 Use Module;
-use Datatables;
 use SweetAlert;
 use Illuminate\Http\Request;
 use Modules\Users\Entities\Role;
-use Yajra\Datatables\Html\Builder;
 use Modules\Users\Entities\Permission;
 use Nwidart\Modules\Routing\Controller;
 use Modules\Users\Http\Requests\CreateRoleRequest;
@@ -21,39 +18,21 @@ class RolesController extends Controller
 {
 
     /**
-     * Datatables Html Builder
-     * @var Builder
+     * RolesController constructor.
      */
-    protected $htmlBuilder;
-
-    /**
-     * @param Builder $htmlBuilder
-     */
-    public function __construct(Builder $htmlBuilder)
+    public function __construct()
     {
-        $this->htmlBuilder = $htmlBuilder;
         $this->middleware('auth');
     }
 
+
     /**
-     * @param Request $request
      * @return $this
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            return Datatables::of(Role::select(['id', 'name', 'display_name', 'description']))
-                ->addColumn('actions', function ($role) {
-                    return $this->getButtons($role);
-                })
-                ->make(true);
-        }
-        $html = $this->htmlBuilder
-            ->addColumn(['data' => 'id', 'name' => 'id', 'title' => 'Id'])
-            ->addColumn(['data' => 'display_name', 'name' => 'display_name', 'title' => 'Nombre'])
-            ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Descripción'])
-            ->addColumn(['data' => 'actions', 'name' => 'actions', 'title' => '', 'orderable' => false]);
-        return view('users::roles.index')->with('html', $html);
+        $roles = Role::paginate(20);
+        return view('users::roles.index')->with('roles', $roles);
     }
 
     /**
@@ -93,7 +72,7 @@ class RolesController extends Controller
     public function update(CreateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
-        $role->fill($request->all());
+        $role->fill($request->only('name'));
         $role->save();
         SweetAlert::success('Se ha actualizado el rol', 'Excelente!')->autoclose(3500);
         return redirect()->route('roles.index');
@@ -109,31 +88,6 @@ class RolesController extends Controller
         $role->delete();
         SweetAlert::success('Se ha eliminado el rol', 'Excelente!')->autoclose(3500);
         return redirect()->route('roles.index');
-    }
-
-    /**
-     * @param $role
-     * @return string
-     */
-    public function getButtons($role)
-    {
-        $buttons = "";
-        if($role->name != 'administrador-del-sistema'){
-            if(Auth::user()->can('edit-role'))
-            {
-                $buttons .= '<a href="'.route('roles.edit', ['id' => $role->id]).'" data-toggle="tooltip" data-placement="top" title="Editar rol" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp;';
-            }
-            if(Auth::user()->can('delete-role'))
-            {
-                $buttons .= '<a href="'.route('roles.destroy', ['id' => $role->id]).'" data-toggle="tooltip" data-placement="top" title="Eliminar rol" class="btn btn-sm btn-danger confirm-delete"><i class="fa fa-times"></i></a>&nbsp;';
-            }
-            if(Auth::user()->can('admin-permissions'))
-            {
-                $buttons .= '<a href="'.route('roles.permissions', ['id' => $role->id]).'" data-toggle="tooltip" data-placement="top" title="Editar permisos" class="btn btn-sm btn-primary"><i class="fa fa-lock"></i></a>&nbsp;';
-            }
-            return $buttons;
-        }
-        return $buttons;
     }
 
     /**
@@ -159,12 +113,7 @@ class RolesController extends Controller
     public function permissionsUpdate(Request $request, $id)
     {
         $role = Role::findOrFail($id);
-        if($request->has('permissions'))
-        {
-            $role->perms()->sync($request->get('permissions'));
-        }else{
-            $role->perms()->sync([]);
-        }
+        $role->syncPermissions($request->get('permissions'), []);
         SweetAlert::success('Se han actualizado los permisos del rol', 'Excelente!')->autoclose(3500);
         return redirect()->back();
     }

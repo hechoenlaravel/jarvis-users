@@ -2,9 +2,7 @@
 
 namespace Modules\Users\Http\Requests;
 
-use Joselfonseca\LaravelApiTools\Http\Requests\ApiRequest as FormRequest;
-
-class ForgotPasswordRequest extends FormRequest
+class ForgotPasswordRequest extends \Illuminate\Foundation\Http\FormRequest
 {
 
     /**

@@ -18,8 +18,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('display_name', ['label' => 'Nombre del rol']) !!}
-                            {!! Field::text('description', ['label' => 'Descripción del rol']) !!}
+                            {!! Field::text('name', ['label' => 'Nombre del rol']) !!}
                         </div>
                     </div>
 

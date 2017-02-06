@@ -11,7 +11,7 @@
 		}
 	],
 	"require": {
-        "zizaco/entrust": "5.2.x-dev"
+
 	},
 	"autoload": {
 		"psr-4": {

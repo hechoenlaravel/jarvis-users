@@ -75,7 +75,7 @@
                                     <td>@{{user.name}}</td>
                                     <td>@{{user.email}}</td>
                                     <td>
-                                        <span class="label label-primary" ng-repeat="role in user.roles.data">@{{role.display_name}}</span>
+                                        <span class="label label-primary" ng-repeat="role in user.roles.data">@{{role.name}}</span>
                                     </td>
                                     <td>@{{user.active.formatted}}</td>
                                     <td>

@@ -43,8 +43,8 @@ class AuthController extends Controller {
             return $this->sendLoginResponse($request);
         }
         $this->incrementLoginAttempts($request);
-        SweetAlert::error($this->getFailedLoginMessage(), 'Ups!')->autoclose(3500);
-        return redirect($this->loginPath());
+        SweetAlert::error('Ha ocurrido un error autenticando al usuario. intenta de nuevo.', 'Ups!')->autoclose(3500);
+        return redirect('auth/login');
     }
 
 

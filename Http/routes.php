@@ -19,12 +19,12 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Modules\Users\Htt
     Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'create', 'edit', 'store', 'update']]);
     Route::get('users/{id}/avatar', 'UsersController@getAvatar');
     Route::post('users/{id}/avatar', 'UsersController@updateAvatar');
-    Route::group(['middleware' => ['acl:create-role,edit-role,delete-role,admin-permissions']], function(){
+    Route::group(['middleware' => ['acl:Crear roles,Editar roles,Eliminar roles,Listar roles,Asignación de permisos a roles']], function(){
         Route::resource('roles', 'RolesController');
         Route::get('roles/{id}/permissions', ['as' => 'roles.permissions', 'uses' => 'RolesController@permissions']);
         Route::put('roles/{id}/update-permissions', ['as' => 'roles.permissions.update', 'uses' => 'RolesController@permissionsUpdate']);
     });
-    Route::group(['prefix' => 'config', 'middleware' => ['acl:user-configuration']], function(){
+    Route::group(['prefix' => 'config', 'middleware' => ['acl:Editar campos de perfil']], function(){
         Route::get('/', ['as' => 'users.config.menu', 'uses' => 'ConfigController@config']);
         Route::get('users', ['as' => 'users.config', 'uses' => 'ConfigController@index']);
         Route::get('users/create-field', ['as' => 'users.config.create', 'uses' => 'ConfigController@createField']);

@@ -19,7 +19,7 @@
                     <h3>Información básica</h3>
                     {!! Field::text('name', $user->name,['label' => 'Nombre completo']) !!}
                     {!! Field::text('email', $user->email, ['label' => 'Email']) !!}
-                    {!! Field::select('roles[]', $roles, $user->roles->pluck('id')->toArray(), ['label' => 'Roles', 'class' => 'select2', 'multiple' => 'multiple']) !!}
+                    {!! Field::select('roles[]', $roles, $user->roles->pluck('name')->toArray(), ['label' => 'Roles', 'class' => 'select2', 'multiple' => 'multiple']) !!}
                     @if(Auth::user()->can('user-activate'))
                         {!! Field::select('active', ['0' => 'No', '1' => 'Si'], $user->active , ['label' => 'Activo', 'class' => 'select2']) !!}
                     @endif

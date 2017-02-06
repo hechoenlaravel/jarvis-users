@@ -64,6 +64,15 @@ class User extends Authenticatable
         return empty($this->avatar) ? asset('img/default-avatar.png') : url('users/'.$this->id.'/avatar');
     }
 
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return ucwords(mb_strtolower($value));
+    }
+
     /**
      *
      * @return string
