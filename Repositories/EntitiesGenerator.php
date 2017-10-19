@@ -3,7 +3,7 @@
 namespace Modules\Users\Repositories;
 
 use Hechoenlaravel\JarvisFoundation\Traits\EntityManager;
-use Pingpong\Modules\Facades\Module;
+use Nwidart\Modules\Facades\Module;
 
 /**
  * Class EntitiesGenerator

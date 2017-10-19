@@ -66,7 +66,7 @@ class MenuDefinition
                 return $request->is('users*');
             },
             'ability' => function() {
-                return !Auth::user()->hasPermissionTo('Listar Usuarios');
+                return !Auth::user()->hasPermissionTo('Listar usuarios');
             }
         ];
     }
