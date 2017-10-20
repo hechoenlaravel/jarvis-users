@@ -70,7 +70,7 @@ JarvisPlatform.controller('UsersController', ['$scope', 'usersService', '$anchor
             $scope.total = 0;
         }
         $scope.results = data.data;
-        $scope.totalUsers = data.meta.total;
+        $scope.totalUsers = data.meta.pagination.total;
         $('#usersSearchButton').button('reset');
         $anchorScroll('resultsBox');
     }
