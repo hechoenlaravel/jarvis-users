@@ -71,6 +71,9 @@ class ConfigController extends Controller {
             ->with('form', $builder->render());
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function config()
     {
         return view('users::config');

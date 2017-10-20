@@ -76,8 +76,7 @@ class ProfileController extends Controller
         try {
             $user->name = $request->get('name');
             $user->email = $request->get('email');
-            if($request->has('password'))
-            {
+            if($request->has('password')) {
                 $this->validate($request, [
                     'password' => 'required|confirmed|min:6'
                 ]);

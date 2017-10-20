@@ -18,20 +18,27 @@ class AuthController extends Controller {
 
     use AuthenticatesUsers;
 
-
+    /**
+     * AuthController constructor.
+     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
         $this->redirectTo = env('URI_AFTER_LOGIN', '/dashboard');
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function login()
     {
         return view('users::auth.login');
     }
 
-
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
     public function postLogin(Request $request)
     {
         $this->validateLogin($request);
@@ -47,7 +54,11 @@ class AuthController extends Controller {
         return redirect('auth/login');
     }
 
-
+    /**
+     * @param $request
+     * @param $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function authenticated($request, $user)
     {
         if(!$user->active) {
@@ -61,6 +72,9 @@ class AuthController extends Controller {
         return redirect()->intended($this->redirectPath());
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function getLogout()
     {
         Auth::logout();

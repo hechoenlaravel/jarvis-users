@@ -216,6 +216,10 @@ class UsersController extends Controller
         return response()->json(['url' => url('users/'.$user->id.'/avatar')]);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getAvatar($id)
     {
         $user = User::find($id);
