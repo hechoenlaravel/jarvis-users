@@ -69,18 +69,18 @@ class ProfileController extends Controller
         $user = Auth::user();
         if ($user->email !== $request->get('email')) {
             $this->validate($request, [
-                'email' => 'unique:app_users,email'
+                'email' => 'unique:users,email'
             ]);
         }
         DB::beginTransaction();
         try {
             $user->name = $request->get('name');
             $user->email = $request->get('email');
-            if($request->has('password')) {
+            if($request->has('password') && !empty($request->get('password'))) {
                 $this->validate($request, [
                     'password' => 'required|confirmed|min:6'
                 ]);
-                $this->user->password = bcrypt($request->get('password'));
+                $user->password = bcrypt($request->get('password'));
             }
             $user->save();
             $this->updateEntry($entity->getEntity()->id, $user->id, ['input' => $request->all()]);

@@ -39,7 +39,7 @@ class GenerateDefaultRoleAndPerms extends Command {
 	 * This will create the User's permissions for module User
 	 * @return mixed
 	 */
-	public function fire()
+	public function handle()
 	{
         $admin = Role::create([
             'name' => 'Administrador del sistema',

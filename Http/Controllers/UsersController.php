@@ -125,7 +125,7 @@ class UsersController extends Controller
         $user = User::byUuid($uuid)->firstOrFail();
         if ($user->email !== $request->get('email')) {
             $this->validate($request, [
-                'email' => 'unique:app_users,email'
+                'email' => 'unique:users,email'
             ]);
         }
         DB::beginTransaction();
@@ -135,7 +135,7 @@ class UsersController extends Controller
             if($request->has('active')) {
                 $user->active = $request->get('active');
             }
-            if($request->has('password')) {
+            if($request->has('password') && !empty($request->get('password'))) {
                 $this->validate($request, [
                     'password' => 'required|confirmed|min:6'
                 ]);
@@ -164,9 +164,9 @@ class UsersController extends Controller
             $user = $this->model->findOrFail($id);
             $user->delete();
 
-            return $this->responseNoContent();
+            return response()->json()->setStatusCode(204);
         } catch (ModelNotFoundException $e) {
-            throw new ApiModelNotFoundException;
+            return response()->json()->setStatusCode(404);
         }
     }
 
@@ -242,7 +242,7 @@ class UsersController extends Controller
             case Password::RESET_LINK_SENT:
                 return response()->json(null, 204);
         }
-        throw new UpdateResourceFailedException();
+        return response()->json()->setStatusCode(500);
     }
 
 }

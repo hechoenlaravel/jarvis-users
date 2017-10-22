@@ -46,7 +46,7 @@
                         </h3>
                         <div class="box-tools pull-right">
                             <button class="btn btn-default btn-sm" ng-click="reset()"><i class="fa fa-times"></i> Limpiar Filtros</button>
-                            @if(Auth::user()->can('user-create'))
+                            @if(Auth::user()->hasPermissionTo('Crear usuario'))
                                 <a href="{{route('users.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear usuario</a>
                             @endif
                         </div>

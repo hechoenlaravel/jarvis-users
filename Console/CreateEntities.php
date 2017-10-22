@@ -36,7 +36,7 @@ class CreateEntities extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function fire()
+	public function handle()
 	{
         $generator = new EntitiesGenerator();
         $generator->generate();

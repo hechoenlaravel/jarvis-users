@@ -49,7 +49,8 @@ class EntitiesGenerator
             'description' => 'users:entity.users.description',
             'slug' => 'users',
             'locked' => 1,
-            'create_table' => 0
+            'create_table' => 0,
+            'table_name' => 'users'
         ];
         $entity = $this->generateEntity($data);
 

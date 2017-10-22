@@ -37,7 +37,7 @@ class GenerateAdmin extends Command {
 	 * Creates the default user
 	 * @return mixed
 	 */
-	public function fire()
+	public function handle()
 	{
         $user = User::create([
             'name' => 'Administrador',
