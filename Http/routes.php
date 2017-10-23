@@ -11,7 +11,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'auth', 'namespace' => 'Modules
 });
 
 Route::group(['middleware' => 'web', 'prefix' => 'password', 'namespace' => 'Modules\Users\Http\Controllers'], function(){
-    Route::get('reset/{token}', ['as' => 'reset-password-get', 'uses' => 'RecoverPasswordController@getReset']);
+    Route::get('reset/{token}', ['as' => 'password.reset', 'uses' => 'RecoverPasswordController@getReset']);
     Route::post('reset', ['as' => 'reset-password', 'uses' => 'RecoverPasswordController@postReset']);
 });
 /** Module Routes **/

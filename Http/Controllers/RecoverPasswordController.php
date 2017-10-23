@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Nwidart\Modules\Routing\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RecoverPasswordController extends Controller
 {

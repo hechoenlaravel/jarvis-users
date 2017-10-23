@@ -23,7 +23,7 @@ class ForgotPasswordRequest extends \Illuminate\Foundation\Http\FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|exists:app_users,email'
+            'email' => 'required|exists:users'
         ];
     }
 
